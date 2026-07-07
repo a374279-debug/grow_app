@@ -16,6 +16,8 @@ class _HomeScreenState extends State<HomeScreen> {
   List<Expense> _expenses = [];
   bool _isLoading = true;
 
+  String _selectedCategory = 'Todas';
+
   @override
   void initState() {
     super.initState();
@@ -28,13 +30,39 @@ class _HomeScreenState extends State<HomeScreen> {
     setState(() {
       _expenses = expenses;
       _isLoading = false;
+
+      final categories = _availableCategories;
+      if (!categories.contains(_selectedCategory)) {
+        _selectedCategory = 'Todas';
+      }
     });
+  }
+
+  List<String> get _availableCategories {
+    final categories = _expenses
+        .map((expense) => expense.category)
+        .toSet()
+        .toList();
+
+    categories.sort();
+
+    return ['Todas', ...categories];
+  }
+
+  List<Expense> get _filteredExpenses {
+    if (_selectedCategory == 'Todas') {
+      return _expenses;
+    }
+
+    return _expenses
+        .where((expense) => expense.category == _selectedCategory)
+        .toList();
   }
 
   double get _monthlyTotal {
     final now = DateTime.now();
 
-    return _expenses
+    return _filteredExpenses
         .where(
           (expense) =>
               expense.date.year == now.year && expense.date.month == now.month,
@@ -53,6 +81,13 @@ class _HomeScreenState extends State<HomeScreen> {
     }
   }
 
+  Future<void> _goToStatisticsScreen() async {
+    await Navigator.push(
+      context,
+      MaterialPageRoute(builder: (context) => const StatisticsScreen()),
+    );
+  }
+
   Future<void> _deleteExpense(int id) async {
     await DatabaseHelper.instance.deleteExpense(id);
     await _loadExpenses();
@@ -68,6 +103,8 @@ class _HomeScreenState extends State<HomeScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final expensesToShow = _filteredExpenses;
+
     return Scaffold(
       appBar: AppBar(title: const Text('Grow'), centerTitle: true),
       body: Padding(
@@ -100,11 +137,15 @@ class _HomeScreenState extends State<HomeScreen> {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  const Text(
-                    'Total gastado este mes',
-                    style: TextStyle(fontSize: 16, color: Colors.black54),
+                  Text(
+                    _selectedCategory == 'Todas'
+                        ? 'Total gastado este mes'
+                        : 'Total gastado este mes en $_selectedCategory',
+                    style: const TextStyle(fontSize: 16, color: Colors.black54),
                   ),
+
                   const SizedBox(height: 8),
+
                   Text(
                     _formatMoney(_monthlyTotal),
                     style: const TextStyle(
@@ -128,17 +169,12 @@ class _HomeScreenState extends State<HomeScreen> {
                     label: const Text('Registrar gasto'),
                   ),
                 ),
+
                 const SizedBox(width: 12),
+
                 Expanded(
                   child: ElevatedButton.icon(
-                    onPressed: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) => const StatisticsScreen(),
-                        ),
-                      );
-                    },
+                    onPressed: _goToStatisticsScreen,
                     icon: const Icon(Icons.pie_chart),
                     label: const Text('Estadísticas'),
                   ),
@@ -163,7 +199,37 @@ class _HomeScreenState extends State<HomeScreen> {
               ),
             ),
 
-            const SizedBox(height: 32),
+            const SizedBox(height: 24),
+
+            Row(
+              children: [
+                const Text(
+                  'Filtrar por categoría:',
+                  style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+                ),
+
+                const SizedBox(width: 16),
+
+                DropdownButton<String>(
+                  value: _selectedCategory,
+                  items: _availableCategories.map((category) {
+                    return DropdownMenuItem<String>(
+                      value: category,
+                      child: Text(category),
+                    );
+                  }).toList(),
+                  onChanged: (value) {
+                    if (value != null) {
+                      setState(() {
+                        _selectedCategory = value;
+                      });
+                    }
+                  },
+                ),
+              ],
+            ),
+
+            const SizedBox(height: 24),
 
             const Text(
               'Gastos recientes',
@@ -175,17 +241,22 @@ class _HomeScreenState extends State<HomeScreen> {
             Expanded(
               child: _isLoading
                   ? const Center(child: CircularProgressIndicator())
-                  : _expenses.isEmpty
-                  ? const Center(
+                  : expensesToShow.isEmpty
+                  ? Center(
                       child: Text(
-                        'Aún no hay gastos registrados.',
-                        style: TextStyle(fontSize: 16, color: Colors.black54),
+                        _expenses.isEmpty
+                            ? 'Aún no hay gastos registrados.'
+                            : 'No hay gastos para esta categoría.',
+                        style: const TextStyle(
+                          fontSize: 16,
+                          color: Colors.black54,
+                        ),
                       ),
                     )
                   : ListView.builder(
-                      itemCount: _expenses.length,
+                      itemCount: expensesToShow.length,
                       itemBuilder: (context, index) {
-                        final expense = _expenses[index];
+                        final expense = expensesToShow[index];
 
                         return Card(
                           child: ListTile(
@@ -203,6 +274,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                     fontWeight: FontWeight.bold,
                                   ),
                                 ),
+
                                 IconButton(
                                   onPressed: () {
                                     if (expense.id != null) {
