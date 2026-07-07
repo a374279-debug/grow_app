@@ -1,12 +1,72 @@
 import 'package:flutter/material.dart';
 
-class HomeScreen extends StatelessWidget {
+import '../data/database_helper.dart';
+import '../models/expense.dart';
+import 'add_expense_screen.dart';
+
+class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
 
   @override
-  Widget build(BuildContext context) {
-    final List<String> expenses = [];
+  State<HomeScreen> createState() => _HomeScreenState();
+}
 
+class _HomeScreenState extends State<HomeScreen> {
+  List<Expense> _expenses = [];
+  bool _isLoading = true;
+
+  @override
+  void initState() {
+    super.initState();
+    _loadExpenses();
+  }
+
+  Future<void> _loadExpenses() async {
+    final expenses = await DatabaseHelper.instance.getAllExpenses();
+
+    setState(() {
+      _expenses = expenses;
+      _isLoading = false;
+    });
+  }
+
+  double get _monthlyTotal {
+    final now = DateTime.now();
+
+    return _expenses
+        .where(
+          (expense) =>
+              expense.date.year == now.year && expense.date.month == now.month,
+        )
+        .fold(0, (sum, expense) => sum + expense.amount);
+  }
+
+  Future<void> _goToAddExpenseScreen() async {
+    final result = await Navigator.push(
+      context,
+      MaterialPageRoute(builder: (context) => const AddExpenseScreen()),
+    );
+
+    if (result == true) {
+      await _loadExpenses();
+    }
+  }
+
+  Future<void> _deleteExpense(int id) async {
+    await DatabaseHelper.instance.deleteExpense(id);
+    await _loadExpenses();
+  }
+
+  String _formatDate(DateTime date) {
+    return '${date.day}/${date.month}/${date.year}';
+  }
+
+  String _formatMoney(double amount) {
+    return '\$${amount.toStringAsFixed(2)}';
+  }
+
+  @override
+  Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(title: const Text('Grow'), centerTitle: true),
       body: Padding(
@@ -36,17 +96,17 @@ class HomeScreen extends StatelessWidget {
                 borderRadius: BorderRadius.circular(16),
                 border: Border.all(color: Colors.green.shade200),
               ),
-              child: const Column(
+              child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text(
+                  const Text(
                     'Total gastado este mes',
                     style: TextStyle(fontSize: 16, color: Colors.black54),
                   ),
-                  SizedBox(height: 8),
+                  const SizedBox(height: 8),
                   Text(
-                    '\$0.00',
-                    style: TextStyle(
+                    _formatMoney(_monthlyTotal),
+                    style: const TextStyle(
                       fontSize: 36,
                       fontWeight: FontWeight.bold,
                       color: Colors.green,
@@ -62,13 +122,7 @@ class HomeScreen extends StatelessWidget {
               children: [
                 Expanded(
                   child: ElevatedButton.icon(
-                    onPressed: () {
-                      ScaffoldMessenger.of(context).showSnackBar(
-                        const SnackBar(
-                          content: Text('Próximamente: registrar gasto'),
-                        ),
-                      );
-                    },
+                    onPressed: _goToAddExpenseScreen,
                     icon: const Icon(Icons.add),
                     label: const Text('Registrar gasto'),
                   ),
@@ -117,7 +171,9 @@ class HomeScreen extends StatelessWidget {
             const SizedBox(height: 12),
 
             Expanded(
-              child: expenses.isEmpty
+              child: _isLoading
+                  ? const Center(child: CircularProgressIndicator())
+                  : _expenses.isEmpty
                   ? const Center(
                       child: Text(
                         'Aún no hay gastos registrados.',
@@ -125,11 +181,37 @@ class HomeScreen extends StatelessWidget {
                       ),
                     )
                   : ListView.builder(
-                      itemCount: expenses.length,
+                      itemCount: _expenses.length,
                       itemBuilder: (context, index) {
-                        return ListTile(
-                          leading: const Icon(Icons.attach_money),
-                          title: Text(expenses[index]),
+                        final expense = _expenses[index];
+
+                        return Card(
+                          child: ListTile(
+                            leading: const Icon(Icons.attach_money),
+                            title: Text(expense.description),
+                            subtitle: Text(
+                              '${expense.category} · ${_formatDate(expense.date)}',
+                            ),
+                            trailing: Row(
+                              mainAxisSize: MainAxisSize.min,
+                              children: [
+                                Text(
+                                  _formatMoney(expense.amount),
+                                  style: const TextStyle(
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                                ),
+                                IconButton(
+                                  onPressed: () {
+                                    if (expense.id != null) {
+                                      _deleteExpense(expense.id!);
+                                    }
+                                  },
+                                  icon: const Icon(Icons.delete),
+                                ),
+                              ],
+                            ),
+                          ),
                         );
                       },
                     ),
