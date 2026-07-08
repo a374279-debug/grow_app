@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 
 import '../data/database_helper.dart';
 import '../models/expense.dart';
+import '../services/excel_export_service.dart';
 import '../services/pdf_export_service.dart';
 import 'add_expense_screen.dart';
 import 'statistics_screen.dart';
@@ -107,6 +108,19 @@ class _HomeScreenState extends State<HomeScreen> {
     ).showSnackBar(SnackBar(content: Text('Reporte PDF generado: $filePath')));
   }
 
+  Future<void> _exportExcelReport() async {
+    final filePath = await ExcelExportService.exportExpensesReport(
+      expenses: _filteredExpenses,
+      selectedCategory: _selectedCategory,
+    );
+
+    if (!mounted) return;
+
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(content: Text('Reporte Excel generado: $filePath')),
+    );
+  }
+
   String _formatDate(DateTime date) {
     return '${date.day}/${date.month}/${date.year}';
   }
@@ -198,13 +212,26 @@ class _HomeScreenState extends State<HomeScreen> {
 
             const SizedBox(height: 12),
 
-            SizedBox(
-              width: double.infinity,
-              child: OutlinedButton.icon(
-                onPressed: _exportPdfReport,
-                icon: const Icon(Icons.file_download),
-                label: const Text('Exportar reporte'),
-              ),
+            Row(
+              children: [
+                Expanded(
+                  child: OutlinedButton.icon(
+                    onPressed: _exportPdfReport,
+                    icon: const Icon(Icons.picture_as_pdf),
+                    label: const Text('Exportar PDF'),
+                  ),
+                ),
+
+                const SizedBox(width: 12),
+
+                Expanded(
+                  child: OutlinedButton.icon(
+                    onPressed: _exportExcelReport,
+                    icon: const Icon(Icons.table_chart),
+                    label: const Text('Exportar Excel'),
+                  ),
+                ),
+              ],
             ),
 
             const SizedBox(height: 24),
