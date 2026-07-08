@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 
 import '../data/database_helper.dart';
 import '../models/expense.dart';
+import '../services/pdf_export_service.dart';
 import 'add_expense_screen.dart';
 import 'statistics_screen.dart';
 
@@ -91,6 +92,19 @@ class _HomeScreenState extends State<HomeScreen> {
   Future<void> _deleteExpense(int id) async {
     await DatabaseHelper.instance.deleteExpense(id);
     await _loadExpenses();
+  }
+
+  Future<void> _exportPdfReport() async {
+    final filePath = await PdfExportService.exportExpensesReport(
+      expenses: _filteredExpenses,
+      selectedCategory: _selectedCategory,
+    );
+
+    if (!mounted) return;
+
+    ScaffoldMessenger.of(
+      context,
+    ).showSnackBar(SnackBar(content: Text('Reporte PDF generado: $filePath')));
   }
 
   String _formatDate(DateTime date) {
@@ -187,13 +201,7 @@ class _HomeScreenState extends State<HomeScreen> {
             SizedBox(
               width: double.infinity,
               child: OutlinedButton.icon(
-                onPressed: () {
-                  ScaffoldMessenger.of(context).showSnackBar(
-                    const SnackBar(
-                      content: Text('Próximamente: exportar reporte'),
-                    ),
-                  );
-                },
+                onPressed: _exportPdfReport,
                 icon: const Icon(Icons.file_download),
                 label: const Text('Exportar reporte'),
               ),
