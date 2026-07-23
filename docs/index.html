@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Grow - Documentación del proyecto</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+  <header class="hero">
+    <nav class="navbar">
+      <div class="logo">Grow</div>
+      <div class="nav-links">
+        <a href="#descripcion">Descripción</a>
+        <a href="#funciones">Funciones</a>
+        <a href="#herramientas">Herramientas</a>
+        <a href="#uso">Uso</a>
+        <a href="#conclusion">Conclusión</a>
+      </div>
+    </nav>
+
+    <section class="hero-content">
+      <h1>Grow</h1>
+      <p class="subtitle">Aplicación de escritorio para la gestión de gastos personales</p>
+      <p>
+        Grow es un sistema desarrollado con Flutter Desktop que permite registrar,
+        consultar, filtrar y analizar gastos personales de manera sencilla.
+      </p>
+      <a class="button" href="#descripcion">Ver documentación</a>
+    </section>
+  </header>
+
+  <main>
+
+    <section id="descripcion" class="section">
+      <h2>Descripción del proyecto</h2>
+      <p>
+        Grow es una aplicación de escritorio diseñada para apoyar la administración
+        de gastos personales. Su propósito principal es permitir que el usuario
+        registre sus gastos diarios, los organice por categoría y consulte información
+        relevante sobre su comportamiento financiero.
+      </p>
+      <p>
+        La aplicación fue desarrollada como parte de un proyecto académico de software,
+        integrando herramientas de desarrollo, almacenamiento local, reportes y control
+        de versiones.
+      </p>
+    </section>
+
+    <section class="section">
+      <h2>Objetivo general</h2>
+      <div class="card">
+        <p>
+          Desarrollar una aplicación de escritorio que permita al usuario llevar un
+          control básico de sus gastos personales mediante el registro, almacenamiento,
+          consulta, filtrado, análisis y exportación de información financiera.
+        </p>
+      </div>
+    </section>
+
+    <section id="funciones" class="section">
+      <h2>Funcionalidades principales</h2>
+
+      <div class="grid">
+        <div class="card">
+          <h3>Registro de gastos</h3>
+          <p>Permite registrar monto, categoría, descripción y fecha de cada gasto.</p>
+        </div>
+
+        <div class="card">
+          <h3>Almacenamiento local</h3>
+          <p>Los gastos se guardan en una base de datos local SQLite.</p>
+        </div>
+
+        <div class="card">
+          <h3>Lista de gastos</h3>
+          <p>Muestra los gastos registrados en la pantalla principal de la aplicación.</p>
+        </div>
+
+        <div class="card">
+          <h3>Filtros por categoría</h3>
+          <p>Permite visualizar únicamente los gastos de una categoría específica.</p>
+        </div>
+
+        <div class="card">
+          <h3>Estadísticas</h3>
+          <p>
+            Presenta información general como total gastado, número de registros,
+            promedio y gastos por categoría.
+          </p>
+        </div>
+
+        <div class="card">
+          <h3>Exportación de reportes</h3>
+          <p>Permite generar reportes en formato PDF y Excel.</p>
+        </div>
+      </div>
+    </section>
+
+    <section id="herramientas" class="section">
+      <h2>Herramientas utilizadas</h2>
+
+      <table>
+        <thead>
+          <tr>
+            <th>Herramienta</th>
+            <th>Uso en el proyecto</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Flutter Desktop</td>
+            <td>Desarrollo de la interfaz y lógica principal de la aplicación.</td>
+          </tr>
+          <tr>
+            <td>Dart</td>
+            <td>Lenguaje de programación utilizado para desarrollar Grow.</td>
+          </tr>
+          <tr>
+            <td>SQLite</td>
+            <td>Base de datos local para almacenar los gastos registrados.</td>
+          </tr>
+          <tr>
+            <td>Visual Studio Code</td>
+            <td>Editor de código utilizado durante el desarrollo.</td>
+          </tr>
+          <tr>
+            <td>Git</td>
+            <td>Control de versiones local del proyecto.</td>
+          </tr>
+          <tr>
+            <td>GitHub</td>
+            <td>Repositorio remoto para respaldar y publicar el proyecto.</td>
+          </tr>
+          <tr>
+            <td>GitHub Pages</td>
+            <td>Publicación gratuita del sitio web de documentación.</td>
+          </tr>
+        </tbody>
+      </table>
+    </section>
+
+    <section id="uso" class="section">
+      <h2>Manual básico de uso</h2>
+
+      <ol>
+        <li>Abrir la aplicación Grow en Windows.</li>
+        <li>Presionar el botón <strong>Registrar gasto</strong>.</li>
+        <li>Ingresar el monto, categoría, descripción y fecha del gasto.</li>
+        <li>Guardar el gasto.</li>
+        <li>Consultar la lista de gastos recientes en la pantalla principal.</li>
+        <li>Usar el filtro de categoría para visualizar gastos específicos.</li>
+        <li>Entrar a la sección de estadísticas para revisar los totales.</li>
+        <li>Exportar reportes en PDF o Excel cuando sea necesario.</li>
+      </ol>
+    </section>
+
+    <section class="section">
+      <h2>Estructura del proyecto</h2>
+
+      <pre><code>grow_app
+├── lib
+│   ├── data
+│   ├── models
+│   ├── screens
+│   ├── services
+│   └── widgets
+├── test
+├── windows
+├── pubspec.yaml
+└── docs</code></pre>
+    </section>
+
+    <section class="section">
+      <h2>Estado actual del proyecto</h2>
+
+      <div class="status-list">
+        <span>Registro de gastos</span>
+        <span>Base de datos SQLite</span>
+        <span>Lista de gastos</span>
+        <span>Filtro por categoría</span>
+        <span>Estadísticas</span>
+        <span>Exportación PDF</span>
+        <span>Exportación Excel</span>
+        <span>Repositorio en GitHub</span>
+      </div>
+    </section>
+
+    <section id="conclusion" class="section">
+      <h2>Conclusión</h2>
+      <p>
+        Grow representa una solución sencilla y funcional para la gestión de gastos
+        personales. El proyecto permitió aplicar conceptos importantes de desarrollo
+        de software, como diseño de interfaz, manejo de datos, almacenamiento local,
+        generación de reportes y control de versiones.
+      </p>
+      <p>
+        Además, la publicación de esta documentación mediante GitHub Pages facilita
+        la presentación del proyecto y permite consultar sus características principales
+        desde un sitio web público.
+      </p>
+    </section>
+
+  </main>
+
+  <footer>
+    <p>Grow - Proyecto de aplicación de escritorio para gestión de gastos personales</p>
+  </footer>
+
+</body>
+</html>
