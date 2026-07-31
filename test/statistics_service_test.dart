@@ -61,5 +61,89 @@ void main() {
 
       expect(total, 0);
     });
+
+    test('Calcula correctamente el promedio con un solo gasto', () {
+      final oneExpense = [
+        Expense(
+          amount: 80.0,
+          category: 'Salud',
+          description: 'Medicina',
+          date: DateTime(2026, 7, 4),
+        ),
+      ];
+
+      final average = StatisticsService.getAverage(oneExpense);
+
+      expect(average, 80.0);
+    });
+
+    test('Calcula correctamente el total con cantidades decimales', () {
+      final decimalExpenses = [
+        Expense(
+          amount: 10.50,
+          category: 'Alimentación',
+          description: 'Pan',
+          date: DateTime(2026, 7, 5),
+        ),
+        Expense(
+          amount: 20.25,
+          category: 'Alimentación',
+          description: 'Fruta',
+          date: DateTime(2026, 7, 6),
+        ),
+      ];
+
+      final total = StatisticsService.getTotal(decimalExpenses);
+
+      expect(total, closeTo(30.75, 0.001));
+    });
+
+    test('Agrupa correctamente varias categorías repetidas', () {
+      final repeatedCategoriesExpenses = [
+        Expense(
+          amount: 120.0,
+          category: 'Servicios',
+          description: 'Internet',
+          date: DateTime(2026, 7, 7),
+        ),
+        Expense(
+          amount: 300.0,
+          category: 'Servicios',
+          description: 'Luz',
+          date: DateTime(2026, 7, 8),
+        ),
+        Expense(
+          amount: 90.0,
+          category: 'Entretenimiento',
+          description: 'Cine',
+          date: DateTime(2026, 7, 9),
+        ),
+        Expense(
+          amount: 60.0,
+          category: 'Entretenimiento',
+          description: 'Música',
+          date: DateTime(2026, 7, 10),
+        ),
+      ];
+
+      final totalsByCategory = StatisticsService.getTotalByCategory(
+        repeatedCategoriesExpenses,
+      );
+
+      expect(totalsByCategory['Servicios'], 420.0);
+      expect(totalsByCategory['Entretenimiento'], 150.0);
+    });
+
+    test('Cuenta 0 gastos cuando la lista está vacía', () {
+      final count = StatisticsService.getExpenseCount([]);
+
+      expect(count, 0);
+    });
+
+    test('Devuelve un mapa vacío cuando no hay gastos por categoría', () {
+      final totalsByCategory = StatisticsService.getTotalByCategory([]);
+
+      expect(totalsByCategory, isEmpty);
+    });
   });
 }
