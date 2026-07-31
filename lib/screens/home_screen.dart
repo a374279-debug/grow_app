@@ -151,10 +151,32 @@ class _HomeScreenState extends State<HomeScreen> {
     return '\$${amount.toStringAsFixed(2)}';
   }
 
+  Widget _buildGrowLogo() {
+    return Container(
+      padding: const EdgeInsets.symmetric(horizontal: 26, vertical: 18),
+      decoration: BoxDecoration(
+        color: Colors.white,
+        borderRadius: BorderRadius.circular(24),
+        boxShadow: [
+          BoxShadow(
+            color: Colors.black.withValues(alpha: 0.12),
+            blurRadius: 12,
+            offset: const Offset(0, 6),
+          ),
+        ],
+      ),
+      child: Image.asset(
+        'assets/images/logo_grow.png',
+        height: 90,
+        fit: BoxFit.contain,
+      ),
+    );
+  }
+
   Widget _buildHeader() {
     return Container(
       width: double.infinity,
-      padding: const EdgeInsets.all(24),
+      padding: const EdgeInsets.all(26),
       decoration: BoxDecoration(
         color: Colors.green.shade700,
         borderRadius: BorderRadius.circular(24),
@@ -166,33 +188,24 @@ class _HomeScreenState extends State<HomeScreen> {
           ),
         ],
       ),
-      child: const Row(
+      child: Column(
         children: [
-          CircleAvatar(
-            radius: 28,
-            backgroundColor: Colors.white,
-            child: Icon(Icons.savings, color: Colors.green, size: 32),
-          ),
-          SizedBox(width: 18),
-          Expanded(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
-                  'Grow',
-                  style: TextStyle(
-                    color: Colors.white,
-                    fontSize: 30,
-                    fontWeight: FontWeight.bold,
-                  ),
-                ),
-                SizedBox(height: 4),
-                Text(
-                  'Gestor de gastos personales',
-                  style: TextStyle(color: Colors.white70, fontSize: 16),
-                ),
-              ],
+          _buildGrowLogo(),
+          const SizedBox(height: 18),
+          const Text(
+            'Gestor de gastos personales',
+            style: TextStyle(
+              color: Colors.white,
+              fontSize: 18,
+              fontWeight: FontWeight.w600,
             ),
+            textAlign: TextAlign.center,
+          ),
+          const SizedBox(height: 6),
+          const Text(
+            'Controla, analiza y exporta tus gastos de forma sencilla',
+            style: TextStyle(color: Colors.white70, fontSize: 15),
+            textAlign: TextAlign.center,
           ),
         ],
       ),
@@ -363,7 +376,7 @@ class _HomeScreenState extends State<HomeScreen> {
       appBar: AppBar(title: const Text('Grow')),
       body: Padding(
         padding: const EdgeInsets.all(24.0),
-        child: Column(
+        child: ListView(
           children: [
             _buildHeader(),
             const SizedBox(height: 18),
@@ -417,7 +430,8 @@ class _HomeScreenState extends State<HomeScreen> {
               ],
             ),
             const SizedBox(height: 10),
-            Expanded(
+            SizedBox(
+              height: 350,
               child: _isLoading
                   ? const Center(child: CircularProgressIndicator())
                   : expensesToShow.isEmpty
