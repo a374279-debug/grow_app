@@ -22,31 +22,19 @@ body {
   padding: 30px 8% 80px;
 }
 
+/* Menú superior */
 .navbar {
   display: flex;
-  justify-content: space-between;
+  justify-content: center;
   align-items: center;
-  margin-bottom: 70px;
-}
-
-.logo {
-  font-size: 34px;
-  font-weight: bold;
-  letter-spacing: -1px;
-  position: relative;
-}
-
-/* Pequeño detalle visual como hojas */
-.logo::before {
-  content: "🌱";
-  font-size: 24px;
-  margin-right: 8px;
+  margin-bottom: 60px;
 }
 
 .nav-links {
   display: flex;
-  gap: 18px;
+  gap: 22px;
   flex-wrap: wrap;
+  justify-content: center;
 }
 
 .nav-links a {
@@ -60,14 +48,28 @@ body {
   text-decoration: underline;
 }
 
+/* Contenido principal del encabezado */
 .hero-content {
   max-width: 780px;
+  margin: 0 auto;
+  text-align: center;
 }
 
-.hero-content h1 {
-  font-size: 76px;
-  margin-bottom: 10px;
-  letter-spacing: -2px;
+.hero-logo-box {
+  background-color: white;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 26px 36px;
+  border-radius: 28px;
+  box-shadow: 0 12px 24px rgba(0, 0, 0, 0.18);
+  margin-bottom: 32px;
+}
+
+.hero-logo {
+  width: 260px;
+  height: auto;
+  display: block;
 }
 
 .subtitle {
@@ -213,22 +215,38 @@ footer {
 
 /* Adaptación para pantallas pequeñas */
 @media (max-width: 850px) {
+  .hero {
+    padding: 25px 6% 65px;
+  }
+
   .navbar {
-    flex-direction: column;
-    gap: 20px;
-    text-align: center;
+    margin-bottom: 45px;
   }
 
   .nav-links {
-    justify-content: center;
+    gap: 14px;
   }
 
-  .hero-content h1 {
-    font-size: 52px;
+  .nav-links a {
+    font-size: 14px;
+  }
+
+  .hero-logo-box {
+    padding: 20px 26px;
+    border-radius: 24px;
+    margin-bottom: 28px;
+  }
+
+  .hero-logo {
+    width: 200px;
   }
 
   .subtitle {
     font-size: 20px;
+  }
+
+  .hero-content p {
+    font-size: 16px;
   }
 
   .grid {
@@ -241,5 +259,9 @@ footer {
 
   .section {
     padding: 25px;
+  }
+
+  .section h2 {
+    font-size: 26px;
   }
 }
