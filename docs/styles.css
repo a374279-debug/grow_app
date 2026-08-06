@@ -204,6 +204,25 @@ pre {
   font-weight: bold;
 }
 
+/* Documento técnico */
+.document-actions {
+  display: flex;
+  gap: 15px;
+  flex-wrap: wrap;
+  margin-top: 20px;
+}
+
+.secondary-button {
+  background-color: #1b7f3a;
+  color: white;
+  border: 2px solid #1b7f3a;
+}
+
+.secondary-button:hover {
+  background-color: #14632d;
+  color: white;
+}
+
 /* Pie de página */
 footer {
   text-align: center;
@@ -263,5 +282,13 @@ footer {
 
   .section h2 {
     font-size: 26px;
+  }
+
+  .document-actions {
+    flex-direction: column;
+  }
+
+  .document-actions .button {
+    text-align: center;
   }
 }
