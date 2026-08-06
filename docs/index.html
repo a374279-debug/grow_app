@@ -30,7 +30,19 @@
         Grow es un sistema desarrollado con Flutter Desktop que permite registrar,
         consultar, filtrar y analizar gastos personales de manera sencilla.
       </p>
-      <a class="button" href="#descripcion">Ver documentación</a>
+
+      <div class="hero-buttons">
+        <a class="button" href="#descripcion">Ver documentación</a>
+
+        <a
+          class="button github-button"
+          href="https://github.com/a374279-debug/grow_app"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          Ver repositorio en GitHub
+        </a>
+      </div>
     </section>
   </header>
 
@@ -66,38 +78,62 @@
       <h2>Funcionalidades principales</h2>
 
       <div class="grid">
+
         <div class="card">
+          <img src="img/funciones/registro_gastos.png" alt="Pantalla de registro de gastos" class="feature-img">
           <h3>Registro de gastos</h3>
-          <p>Permite registrar monto, categoría, descripción y fecha de cada gasto.</p>
-        </div>
-
-        <div class="card">
-          <h3>Almacenamiento local</h3>
-          <p>Los gastos se guardan en una base de datos local SQLite.</p>
-        </div>
-
-        <div class="card">
-          <h3>Lista de gastos</h3>
-          <p>Muestra los gastos registrados en la pantalla principal de la aplicación.</p>
-        </div>
-
-        <div class="card">
-          <h3>Filtros por categoría</h3>
-          <p>Permite visualizar únicamente los gastos de una categoría específica.</p>
-        </div>
-
-        <div class="card">
-          <h3>Estadísticas</h3>
           <p>
-            Presenta información general como total gastado, número de registros,
-            promedio y gastos por categoría.
+            Permite registrar monto, categoría, descripción y fecha de cada gasto.
+            Esta función facilita la captura de la información que posteriormente será
+            almacenada y consultada dentro de la aplicación.
           </p>
         </div>
 
         <div class="card">
-          <h3>Exportación de reportes</h3>
-          <p>Permite generar reportes en formato PDF y Excel.</p>
+          <img src="img/funciones/almacenamiento_local.png" alt="Almacenamiento local con SQLite" class="feature-img">
+          <h3>Almacenamiento local</h3>
+          <p>
+            Los gastos se guardan en una base de datos local SQLite, lo que permite
+            conservar la información registrada directamente en el equipo del usuario.
+          </p>
         </div>
+
+        <div class="card">
+          <img src="img/funciones/lista_gastos.png" alt="Lista de gastos registrados" class="feature-img">
+          <h3>Lista de gastos</h3>
+          <p>
+            Muestra los gastos registrados en la pantalla principal de la aplicación.
+            Cada registro presenta información como monto, categoría, descripción y fecha.
+          </p>
+        </div>
+
+        <div class="card">
+          <img src="img/funciones/filtro_categoria.png" alt="Filtro de gastos por categoría" class="feature-img">
+          <h3>Filtros por categoría</h3>
+          <p>
+            Permite visualizar únicamente los gastos de una categoría específica,
+            facilitando la consulta y el análisis de la información registrada.
+          </p>
+        </div>
+
+        <div class="card">
+          <img src="img/funciones/estadisticas.png" alt="Pantalla de estadísticas de Grow" class="feature-img">
+          <h3>Estadísticas</h3>
+          <p>
+            Presenta información general como total gastado, número de registros,
+            promedio y gastos por categoría mediante una representación gráfica.
+          </p>
+        </div>
+
+        <div class="card">
+          <img src="img/funciones/exportacion_reportes.png" alt="Exportación de reportes PDF y Excel" class="feature-img">
+          <h3>Exportación de reportes</h3>
+          <p>
+            Permite generar reportes en formato PDF y Excel para consultar, respaldar
+            o presentar la información de los gastos registrados.
+          </p>
+        </div>
+
       </div>
     </section>
 
